@@ -11,27 +11,17 @@
             theme: {
                 extend: {
                     colors: {
-                        bkt: {
-                            green: '#008e3b'
-                        },
-                        valtra: {
-                            dark: '#1a1a1a',
-                            gray: '#333333'
-                        }
+                        bkt: { green: '#008e3b' },
+                        valtra: { dark: '#1a1a1a', gray: '#333333' }
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'Roboto', 'sans-serif'],
-                    }
+                    fontFamily: { sans: ['Inter', 'Roboto', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
-        /* Ajout d'une police Google moderne pour un rendu professionnel */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
-        
-        /* Transitions douces pour l'interface */
         .fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
@@ -41,20 +31,15 @@
 </head>
 <body class="bg-gray-100 text-gray-800 antialiased min-h-screen flex flex-col">
 
-    <!-- En-tête (Header) -->
+    <!-- En-tête -->
     <header class="bg-bkt-green text-white py-4 shadow-md">
         <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
-            <!-- Left Logo: BKT -->
             <div class="bg-white p-2 rounded shadow-sm flex-shrink-0">
                 <img src="https://i.postimg.cc/7Z255hNM/LOGO-BKT-TIRES-Green-Line-RGB.png" alt="BKT Logo" class="h-10 md:h-14 object-contain">
             </div>
-            
-            <!-- Center Title -->
             <h1 class="text-xl md:text-3xl font-bold tracking-wide text-center flex-grow mx-4">
                 Configurateur BKT x VALTRA UNLIMITED
             </h1>
-
-            <!-- Right Logo: Valtra -->
             <div class="bg-white p-2 rounded shadow-sm flex-shrink-0 flex items-center justify-center border border-gray-200">
                 <img src="https://i.postimg.cc/SxBzdCsy/Valtra-Logo-Black-Outline-RGB.png" alt="Valtra Logo" class="max-h-10 md:max-h-14 w-auto object-contain block">
             </div>
@@ -84,33 +69,37 @@
             </div>
 
             <!-- Mode 1: Recherche par Série -->
-            <div id="modeSeries" class="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in">
-                <!-- Dropdown Série -->
+            <div id="modeSeries" class="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in">
                 <div>
-                    <label for="seriesSelect" class="block text-sm font-semibold text-gray-600 mb-2">Sélection de la série</label>
+                    <label for="seriesSelect" class="block text-sm font-semibold text-gray-600 mb-2">Série Tracteur</label>
                     <select id="seriesSelect" class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-bkt-green focus:border-transparent transition-shadow cursor-pointer appearance-none">
                         <option value="">-- Sélectionnez une série --</option>
                     </select>
                 </div>
-                <!-- Dropdown Package -->
                 <div>
-                    <label for="packageSelect" class="block text-sm font-semibold text-gray-600 mb-2">Dimensions </label>
+                    <label for="tariffSelect" class="block text-sm font-semibold text-gray-600 mb-2">Type de Tarif</label>
+                    <select id="tariffSelect" disabled class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-100 text-gray-500 focus:outline-none focus:ring-2 focus:ring-bkt-green focus:border-transparent transition-shadow cursor-not-allowed appearance-none">
+                        <option value="">-- Sélectionnez le type de tarif --</option>
+                        <option value="unlimited">Tarif Unlimited</option>
+                        <option value="special">Demandes Spéciales</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="packageSelect" class="block text-sm font-semibold text-gray-600 mb-2">Dimensions (Avant + Arrière)</label>
                     <select id="packageSelect" disabled class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-100 text-gray-500 focus:outline-none focus:ring-2 focus:ring-bkt-green focus:border-transparent transition-shadow cursor-not-allowed appearance-none">
-                        <option value="">-- En attente de série --</option>
+                        <option value="">-- En attente de combinaison pneus --</option>
                     </select>
                 </div>
             </div>
 
             <!-- Mode 2: Recherche par Pattern -->
             <div id="modePattern" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden fade-in">
-                <!-- Dropdown Pattern -->
                 <div>
                     <label for="patternSelect" class="block text-sm font-semibold text-gray-600 mb-2">Modèle de Pneu (Pattern)</label>
                     <select id="patternSelect" class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-bkt-green focus:border-transparent transition-shadow cursor-pointer appearance-none">
                         <option value="">-- Sélectionnez un modèle --</option>
                     </select>
                 </div>
-                <!-- Dropdown Config -->
                 <div>
                     <label for="configSelect" class="block text-sm font-semibold text-gray-600 mb-2">Configuration correspondante</label>
                     <select id="configSelect" disabled class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-100 text-gray-500 focus:outline-none focus:ring-2 focus:ring-bkt-green focus:border-transparent transition-shadow cursor-not-allowed appearance-none">
@@ -120,7 +109,7 @@
             </div>
         </section>
 
-        <!-- Conteneur des résultats (masqué par défaut) -->
+        <!-- Conteneur des résultats -->
         <div id="resultsContainer" class="hidden space-y-8 fade-in">
 
             <!-- 2. DÉTAILS DE LA CONFIGURATION -->
@@ -148,7 +137,6 @@
                     TARIFICATION (NET €)
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Voie Standard -->
                     <div class="space-y-4">
                         <h3 class="font-semibold text-valtra-dark text-md border-l-4 border-bkt-green pl-2">Voie Standard</h3>
                         <div class="flex justify-between items-center bg-gray-50 p-3 rounded border">
@@ -160,7 +148,6 @@
                             <span id="priceStdFix" class="font-bold text-lg text-green-700">-</span>
                         </div>
                     </div>
-                    <!-- Voie Spéciale -->
                     <div class="space-y-4">
                         <h3 class="font-semibold text-valtra-dark text-md border-l-4 border-bkt-green pl-2">Voie Spéciale</h3>
                         <div class="flex justify-between items-center bg-gray-50 p-3 rounded border">
@@ -175,35 +162,52 @@
                 </div>
             </section>
 
-            <!-- 4. LARGEURS DE VOIE (mm) -->
-            <section class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+            <!-- 4. GESTION DES VOIES -->
+            <section id="trackManagementSection" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
                 <h2 class="text-lg font-bold text-valtra-gray uppercase mb-6 flex items-center border-b pb-3">
                     <span class="bg-bkt-green text-white w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm">4</span>
-                    LARGEURS DE VOIE (mm)
+                    GESTION DES VOIES
                 </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div>
+                        <label for="rimTypeSelect" class="block text-sm font-semibold text-gray-700 mb-2">Type de jantes</label>
+                        <select id="rimTypeSelect" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-800 focus:ring-2 focus:ring-bkt-green cursor-pointer">
+                            <option value="standard">Avec Jantes à voies standards</option>
+                            <option value="special">Jantes à voies spéciales</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="stabilizerSelect" class="block text-sm font-semibold text-gray-700 mb-2">Stabilisateurs</label>
+                        <select id="stabilizerSelect" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-800 focus:ring-2 focus:ring-bkt-green cursor-pointer">
+                            <option value="manual">Stabilisateurs manuels</option>
+                            <option value="hydraulic">Stabilisateurs hydrauliques</option>
+                        </select>
+                    </div>
+                </div>
                 
                 <div class="overflow-hidden border border-gray-200 rounded-lg">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-gray-100">
-                                <th class="py-3 px-4 text-sm font-semibold text-gray-600 border-b border-r border-gray-200 w-1/3">Dimension</th>
+                                <th class="py-3 px-4 text-sm font-semibold text-gray-600 border-b border-r border-gray-200 w-1/3">Configuration</th>
                                 <th class="py-3 px-4 text-sm font-bold text-bkt-green border-b border-r border-gray-200 w-1/3 text-center">Essieu Arrière</th>
                                 <th class="py-3 px-4 text-sm font-bold text-bkt-green border-b border-gray-200 w-1/3 text-center">Essieu Avant</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             <tr class="hover:bg-gray-50">
-                                <td class="py-3 px-4 text-sm font-medium text-gray-700 border-r border-gray-200">Voie Standard (Fixe)</td>
+                                <td id="trackRowTitle1" class="py-3 px-4 text-sm font-medium text-gray-700 border-r border-gray-200">Voie Standard (Fixe)</td>
                                 <td id="trackRearStd" class="py-3 px-4 text-center font-mono text-gray-900 border-r border-gray-200">-</td>
                                 <td id="trackFrontStd" class="py-3 px-4 text-center font-mono text-gray-900">-</td>
                             </tr>
                             <tr class="hover:bg-gray-50 bg-white">
-                                <td class="py-3 px-4 text-sm font-medium text-gray-700 border-r border-gray-200">Largeur de Voie Min</td>
+                                <td id="trackRowTitle2" class="py-3 px-4 text-sm font-medium text-gray-700 border-r border-gray-200">Largeur de Voie Min</td>
                                 <td id="trackRearMin" class="py-3 px-4 text-center font-mono text-gray-900 border-r border-gray-200">-</td>
                                 <td id="trackFrontMin" class="py-3 px-4 text-center font-mono text-gray-900">-</td>
                             </tr>
                             <tr class="hover:bg-gray-50">
-                                <td class="py-3 px-4 text-sm font-medium text-gray-700 border-r border-gray-200">Largeur de Voie Max</td>
+                                <td id="trackRowTitle3" class="py-3 px-4 text-sm font-medium text-gray-700 border-r border-gray-200">Largeur de Voie Max</td>
                                 <td id="trackRearMax" class="py-3 px-4 text-center font-mono text-gray-900 border-r border-gray-200">-</td>
                                 <td id="trackFrontMax" class="py-3 px-4 text-center font-mono text-gray-900">-</td>
                             </tr>
@@ -229,12 +233,11 @@
 
     <!-- Logique de l'application -->
     <script>
-        // Initialisation des variables globales
         let tyreData = {};
         let patternData = {};
 
-        // DOM Elements
         const seriesSelect = document.getElementById('seriesSelect');
+        const tariffSelect = document.getElementById('tariffSelect');
         const packageSelect = document.getElementById('packageSelect');
         const patternSelect = document.getElementById('patternSelect');
         const configSelect = document.getElementById('configSelect');
@@ -243,43 +246,47 @@
         
         const modeSeriesContainer = document.getElementById('modeSeries');
         const modePatternContainer = document.getElementById('modePattern');
+        
+        const rimTypeSelect = document.getElementById('rimTypeSelect');
+        const stabilizerSelect = document.getElementById('stabilizerSelect');
 
-        // Données mises à jour avec la mention "VF" pour les modèles V-Flecto
         const rawTyreData = {
           "A5": [
-            {"Series": "A5", "Tyre_Package": "18.4-34 + 14.9-24", "Tyre_Pattern": "BKT TR-135 (12 PR)", "Lead_Ratio": 0.0119, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 5350, "Std_Track_Rear": 1640, "Std_Track_Front": 1650, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": 6350, "Track_Rear_Min": 1520, "Track_Rear_Max": 1910, "Track_Front_Min": 1570, "Track_Front_Max": 1800, "Notes": "-"}
+            {"Series": "A5", "Tarif_Type": "unlimited", "Tyre_Package": "18.4-34 + 14.9-24", "Tyre_Pattern": "BKT TR-135 (12 PR)", "Lead_Ratio": 0.0119, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 5350, "Std_Track_Rear": 1640, "Std_Track_Front": 1650, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": 6350, "Track_Rear_Min": 1520, "Track_Rear_Max": 1910, "Track_Front_Min": 1570, "Track_Front_Max": 1800, "Notes": "-"}
           ],
           "G5": [
-            {"Series": "G5", "Tyre_Package": "18.4-34 + 14.9-24", "Tyre_Pattern": "BKT TR-135 (12 PR)", "Lead_Ratio": 0.0265, "Std_NetPrice_Adj": 4200, "Std_NetPrice_Fixed": 4200, "Std_Track_Rear": 1750, "Std_Track_Front": 1780, "Spec_NetPrice_Adj": 5700, "Spec_NetPrice_Fixed": 5700, "Track_Rear_Min": 1620, "Track_Rear_Max": 2020, "Track_Front_Min": 1690, "Track_Front_Max": 1930, "Notes": "-"},
-            {"Series": "G5", "Tyre_Package": "18.4-38 + 14.9-28 ", "Tyre_Pattern": "BKT TR-135 (12 PR)", "Lead_Ratio": 0.0406, "Std_NetPrice_Adj": 5500, "Std_NetPrice_Fixed": "-", "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 7000, "Spec_NetPrice_Fixed": 6850, "Track_Rear_Min": 1620, "Track_Rear_Max": 1990, "Track_Front_Min": 1680, "Track_Front_Max": 2040, "Notes": "-"},
-            {"Series": "G5", "Tyre_Package": "600/65R38 + 480/65R28", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.029883725305738462, "Std_NetPrice_Adj": 9600, "Std_NetPrice_Fixed": 8400, "Std_Track_Rear": 1752, "Std_Track_Front": 1780, "Spec_NetPrice_Adj": 11100, "Spec_NetPrice_Fixed": 9900, "Track_Rear_Min": 1752, "Track_Rear_Max": 1950, "Track_Front_Min": 1780, "Track_Front_Max": 1990, "Notes": "-"},
-            {"Series": "G5", "Tyre_Package": "VF 650/60R38 + VF 520/60R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.003544182480352598, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 9500, "Std_Track_Rear": 1819, "Std_Track_Front": 1802, "Spec_NetPrice_Adj": 13200, "Spec_NetPrice_Fixed": 11000, "Track_Rear_Min": 1802, "Track_Rear_Max": 1900, "Track_Front_Min": 1802, "Track_Front_Max": 1987, "Notes": "-"}
+            {"Series": "G5", "Tarif_Type": "unlimited", "Tyre_Package": "18.4-34 + 14.9-24", "Tyre_Pattern": "BKT TR-135 (12 PR)", "Lead_Ratio": 0.0265, "Std_NetPrice_Adj": 4200, "Std_NetPrice_Fixed": 4200, "Std_Track_Rear": 1750, "Std_Track_Front": 1780, "Spec_NetPrice_Adj": 5700, "Spec_NetPrice_Fixed": 5700, "Track_Rear_Min": 1620, "Track_Rear_Max": 2020, "Track_Front_Min": 1690, "Track_Front_Max": 1930, "Notes": "-"},
+            {"Series": "G5", "Tarif_Type": "unlimited", "Tyre_Package": "18.4-38 + 14.9-28", "Tyre_Pattern": "BKT TR-135 (12 PR)", "Lead_Ratio": 0.0406, "Std_NetPrice_Adj": 5500, "Std_NetPrice_Fixed": "-", "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 7000, "Spec_NetPrice_Fixed": 6850, "Track_Rear_Min": 1620, "Track_Rear_Max": 1990, "Track_Front_Min": 1680, "Track_Front_Max": 2040, "Notes": "-"},
+            {"Series": "G5", "Tarif_Type": "unlimited", "Tyre_Package": "600/65R38 + 480/65R28", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.029883725305738462, "Std_NetPrice_Adj": 9600, "Std_NetPrice_Fixed": 8400, "Std_Track_Rear": 1752, "Std_Track_Front": 1780, "Spec_NetPrice_Adj": 11100, "Spec_NetPrice_Fixed": 9900, "Track_Rear_Min": 1752, "Track_Rear_Max": 1950, "Track_Front_Min": 1780, "Track_Front_Max": 1990, "Notes": "-"},
+            {"Series": "G5", "Tarif_Type": "unlimited", "Tyre_Package": "VF 650/60R38 + VF 520/60R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.003544182480352598, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 9500, "Std_Track_Rear": 1819, "Std_Track_Front": 1802, "Spec_NetPrice_Adj": 13200, "Spec_NetPrice_Fixed": 11000, "Track_Rear_Min": 1802, "Track_Rear_Max": 1900, "Track_Front_Min": 1802, "Track_Front_Max": 1987, "Notes": "-"},
+            {"Series": "G5", "Tarif_Type": "special", "Tyre_Package": "600/65R38 + 480/65R28", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.029883725305738462, "Std_NetPrice_Adj": 10500, "Std_NetPrice_Fixed": 9200, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 12200, "Spec_NetPrice_Fixed": 10800, "Track_Rear_Min": "-", "Track_Rear_Max": "-", "Track_Front_Min": "-", "Track_Front_Max": "-", "Notes": "Demande spéciale"}
           ],
           "N5": [
-            {"Series": "N5", "Tyre_Package": "480/80R34 + 400/80R24", "Tyre_Pattern": "-", "Lead_Ratio": 0.0083, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": "-", "Std_Track_Rear": 1810, "Std_Track_Front": 1840, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": "-", "Track_Rear_Min": 1680, "Track_Rear_Max": 2060, "Track_Front_Min": 1700, "Track_Front_Max": 1970, "Notes": "-"},
-            {"Series": "N5", "Tyre_Package": "520/70R38 + 420/70R28", "Tyre_Pattern": "BKT Agrimax RT765", "Lead_Ratio": 0.0035, "Std_NetPrice_Adj": 7200, "Std_NetPrice_Fixed": 7100, "Std_Track_Rear": 1880, "Std_Track_Front": 1840, "Spec_NetPrice_Adj": 9200, "Spec_NetPrice_Fixed": 9100, "Track_Rear_Min": 1640, "Track_Rear_Max": 2060, "Track_Front_Min": 1720, "Track_Front_Max": 2050, "Notes": "-"},
-            {"Series": "N5", "Tyre_Package": "600/65R38 + 480/65R28", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.017577422389463804, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 9400, "Std_Track_Rear": 1850, "Std_Track_Front": 1840, "Spec_NetPrice_Adj": 13300, "Spec_NetPrice_Fixed": 11400, "Track_Rear_Min": 1720, "Track_Rear_Max": 2110, "Track_Front_Min": 1780, "Track_Front_Max": 2000, "Notes": "-"},
-            {"Series": "N5", "Tyre_Package": "VF 650/65R38 + VF 540/65R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0217, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 14300, "Std_Track_Rear": 1830, "Std_Track_Front": 1920, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": 16300, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1840, "Track_Front_Max": 2100, "Notes": "-"},
-            {"Series": "N5", "Tyre_Package": "650/65R38 + 540/65R28", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.025960826985854224, "Std_NetPrice_Adj": 10850, "Std_NetPrice_Fixed": 10250, "Std_Track_Rear": 1850, "Std_Track_Front": 1900, "Spec_NetPrice_Adj": 12850, "Spec_NetPrice_Fixed": 12250, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1840, "Track_Front_Max": 2100, "Notes": "-"},
-            {"Series": "N5", "Tyre_Package": "VF 710/60R38 + VF 600/60R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0368, "Std_NetPrice_Adj": 18800, "Std_NetPrice_Fixed": 14800, "Std_Track_Rear": 1830, "Std_Track_Front": 1920, "Spec_NetPrice_Adj": 20800, "Spec_NetPrice_Fixed": 16800, "Track_Rear_Min": 1830, "Track_Rear_Max": 2040, "Track_Front_Min": 1900, "Track_Front_Max": 2150, "Notes": "Reinforced adjustable"}
+            {"Series": "N5", "Tarif_Type": "unlimited", "Tyre_Package": "480/80R34 + 400/80R24", "Tyre_Pattern": "-", "Lead_Ratio": 0.0083, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": "-", "Std_Track_Rear": 1810, "Std_Track_Front": 1840, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": "-", "Track_Rear_Min": 1680, "Track_Rear_Max": 2060, "Track_Front_Min": 1700, "Track_Front_Max": 1970, "Notes": "-"},
+            {"Series": "N5", "Tarif_Type": "unlimited", "Tyre_Package": "520/70R38 + 420/70R28", "Tyre_Pattern": "BKT Agrimax RT765", "Lead_Ratio": 0.0035, "Std_NetPrice_Adj": 7200, "Std_NetPrice_Fixed": 7100, "Std_Track_Rear": 1880, "Std_Track_Front": 1840, "Spec_NetPrice_Adj": 9200, "Spec_NetPrice_Fixed": 9100, "Track_Rear_Min": 1640, "Track_Rear_Max": 2060, "Track_Front_Min": 1720, "Track_Front_Max": 2050, "Notes": "-"},
+            {"Series": "N5", "Tarif_Type": "unlimited", "Tyre_Package": "600/65R38 + 480/65R28", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.017577422389463804, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 9400, "Std_Track_Rear": 1850, "Std_Track_Front": 1840, "Spec_NetPrice_Adj": 13300, "Spec_NetPrice_Fixed": 11400, "Track_Rear_Min": 1720, "Track_Rear_Max": 2110, "Track_Front_Min": 1780, "Track_Front_Max": 2000, "Notes": "-"},
+            {"Series": "N5", "Tarif_Type": "unlimited", "Tyre_Package": "VF 650/65R38 + VF 540/65R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0217, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 14300, "Std_Track_Rear": 1830, "Std_Track_Front": 1920, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": 16300, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1840, "Track_Front_Max": 2100, "Notes": "-"},
+            {"Series": "N5", "Tarif_Type": "unlimited", "Tyre_Package": "650/65R38 + 540/65R28", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.025960826985854224, "Std_NetPrice_Adj": 10850, "Std_NetPrice_Fixed": 10250, "Std_Track_Rear": 1850, "Std_Track_Front": 1900, "Spec_NetPrice_Adj": 12850, "Spec_NetPrice_Fixed": 12250, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1840, "Track_Front_Max": 2100, "Notes": "-"},
+            {"Series": "N5", "Tarif_Type": "unlimited", "Tyre_Package": "VF 710/60R38 + VF 600/60R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0368, "Std_NetPrice_Adj": 18800, "Std_NetPrice_Fixed": 14800, "Std_Track_Rear": 1830, "Std_Track_Front": 1920, "Spec_NetPrice_Adj": 20800, "Spec_NetPrice_Fixed": 16800, "Track_Rear_Min": 1830, "Track_Rear_Max": 2040, "Track_Front_Min": 1900, "Track_Front_Max": 2150, "Notes": "Reinforced adjustable"}
           ],
           "T5": [
-            {"Series": "T5", "Tyre_Package": "VF 650/65R38 + VF 540/65R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0309, "Std_NetPrice_Adj": 18000, "Std_NetPrice_Fixed": 14300, "Std_Track_Rear": 1830, "Std_Track_Front": 1940, "Spec_NetPrice_Adj": 20000, "Spec_NetPrice_Fixed": 16300, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1850, "Track_Front_Max": 2250, "Notes": "Reinforced adjustable rim"},
-            {"Series": "T5", "Tyre_Package": "VF 710/70R38 + VF 600/65R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0298, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 15400, "Std_Track_Rear": 1830, "Std_Track_Front": 1920, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": 17400, "Track_Rear_Min": 1830, "Track_Rear_Max": 2040, "Track_Front_Min": 1910, "Track_Front_Max": 2150, "Notes": "-"},
-            {"Series": "T5", "Tyre_Package": "650/65R42 + 540/65R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.008585789742715955, "Std_NetPrice_Adj": 12300, "Std_NetPrice_Fixed": 11350, "Std_Track_Rear": 1850, "Std_Track_Front": 1910, "Spec_NetPrice_Adj": 14300, "Spec_NetPrice_Fixed": 13350, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1890, "Track_Front_Max": 2190, "Notes": "-"},
-            {"Series": "T5", "Tyre_Package": "VF 710/60R42 + VF 600/60R30", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0208, "Std_NetPrice_Adj": 19800, "Std_NetPrice_Fixed": 15600, "Std_Track_Rear": 1830, "Std_Track_Front": 1960, "Spec_NetPrice_Adj": 21800, "Spec_NetPrice_Fixed": 17600, "Track_Rear_Min": 1830, "Track_Rear_Max": 2040, "Track_Front_Min": 1910, "Track_Front_Max": 2150, "Notes": "Reinforced adjustable rim"}
+            {"Series": "T5", "Tarif_Type": "unlimited", "Tyre_Package": "VF 650/65R38 + VF 540/65R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0309, "Std_NetPrice_Adj": 18000, "Std_NetPrice_Fixed": 14300, "Std_Track_Rear": 1830, "Std_Track_Front": 1940, "Spec_NetPrice_Adj": 20000, "Spec_NetPrice_Fixed": 16300, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1850, "Track_Front_Max": 2250, "Notes": "Reinforced adjustable rim"},
+            {"Series": "T5", "Tarif_Type": "unlimited", "Tyre_Package": "VF 710/70R38 + VF 600/65R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0298, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 15400, "Std_Track_Rear": 1830, "Std_Track_Front": 1920, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": 17400, "Track_Rear_Min": 1830, "Track_Rear_Max": 2040, "Track_Front_Min": 1910, "Track_Front_Max": 2150, "Notes": "-"},
+            {"Series": "T5", "Tarif_Type": "special", "Tyre_Package": "VF 710/70R38 + VF 600/65R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0298, "Std_NetPrice_Adj": 19200, "Std_NetPrice_Fixed": 16500, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 21200, "Spec_NetPrice_Fixed": 18500, "Track_Rear_Min": "-", "Track_Rear_Max": "-", "Track_Front_Min": "-", "Track_Front_Max": "-", "Notes": "Demande spéciale Case 61"},
+            {"Series": "T5", "Tarif_Type": "unlimited", "Tyre_Package": "650/65R42 + 540/65R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.008585789742715955, "Std_NetPrice_Adj": 12300, "Std_NetPrice_Fixed": 11350, "Std_Track_Rear": 1850, "Std_Track_Front": 1910, "Spec_NetPrice_Adj": 14300, "Spec_NetPrice_Fixed": 13350, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1890, "Track_Front_Max": 2190, "Notes": "-"},
+            {"Series": "T5", "Tarif_Type": "unlimited", "Tyre_Package": "VF 710/60R42 + VF 600/60R30", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0208, "Std_NetPrice_Adj": 19800, "Std_NetPrice_Fixed": 15600, "Std_Track_Rear": 1830, "Std_Track_Front": 1960, "Spec_NetPrice_Adj": 21800, "Spec_NetPrice_Fixed": 17600, "Track_Rear_Min": 1830, "Track_Rear_Max": 2040, "Track_Front_Min": 1910, "Track_Front_Max": 2150, "Notes": "Reinforced adjustable rim"}
           ],
           "Q5": [
-            {"Series": "Q5", "Tyre_Package": "650/85R38 + 600/70R30", "Tyre_Pattern": "BKT Agrimax Fortis", "Lead_Ratio": 0.0399, "Std_NetPrice_Adj": 16300, "Std_NetPrice_Fixed": 15400, "Std_Track_Rear": 1898, "Std_Track_Front": 1971, "Spec_NetPrice_Adj": 19300, "Spec_NetPrice_Fixed": 18400, "Track_Rear_Min": 1876, "Track_Rear_Max": 2350, "Track_Front_Min": 1770, "Track_Front_Max": 2240, "Notes": "-"},
-            {"Series": "Q5", "Tyre_Package": "650/65R42 + 540/65R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.010096779689895863, "Std_NetPrice_Adj": 12850, "Std_NetPrice_Fixed": 12300, "Std_Track_Rear": 1790, "Std_Track_Front": 1850, "Spec_NetPrice_Adj": 15850, "Spec_NetPrice_Fixed": 15300, "Track_Rear_Min": 1790, "Track_Rear_Max": 2330, "Track_Front_Min": 1705, "Track_Front_Max": 2190, "Notes": "-"},
-            {"Series": "Q5", "Tyre_Package": "VF 710/70R42 + VF 600/70R30", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0189, "Std_NetPrice_Adj": 20500, "Std_NetPrice_Fixed": 19600, "Std_Track_Rear": 1950, "Std_Track_Front": 1972, "Spec_NetPrice_Adj": 23500, "Spec_NetPrice_Fixed": 22600, "Track_Rear_Min": 1880, "Track_Rear_Max": 2290, "Track_Front_Min": 1765, "Track_Front_Max": 2240, "Notes": "-"},
-            {"Series": "Q5", "Tyre_Package": "710/70R42 + 600/70R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.028789910600255375, "Std_NetPrice_Adj": 16850, "Std_NetPrice_Fixed": 15550, "Std_Track_Rear": 1900, "Std_Track_Front": 1972, "Spec_NetPrice_Adj": 19850, "Spec_NetPrice_Fixed": 18550, "Track_Rear_Min": 1880, "Track_Rear_Max": 2290, "Track_Front_Min": 1765, "Track_Front_Max": 2240, "Notes": "-"}
+            {"Series": "Q5", "Tarif_Type": "unlimited", "Tyre_Package": "650/85R38 + 600/70R30", "Tyre_Pattern": "BKT Agrimax Fortis", "Lead_Ratio": 0.0399, "Std_NetPrice_Adj": 16300, "Std_NetPrice_Fixed": 15400, "Std_Track_Rear": 1898, "Std_Track_Front": 1971, "Spec_NetPrice_Adj": 19300, "Spec_NetPrice_Fixed": 18400, "Track_Rear_Min": 1876, "Track_Rear_Max": 2350, "Track_Front_Min": 1770, "Track_Front_Max": 2240, "Notes": "-"},
+            {"Series": "Q5", "Tarif_Type": "unlimited", "Tyre_Package": "650/65R42 + 540/65R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.010096779689895863, "Std_NetPrice_Adj": 12850, "Std_NetPrice_Fixed": 12300, "Std_Track_Rear": 1790, "Std_Track_Front": 1850, "Spec_NetPrice_Adj": 15850, "Spec_NetPrice_Fixed": 15300, "Track_Rear_Min": 1790, "Track_Rear_Max": 2330, "Track_Front_Min": 1705, "Track_Front_Max": 2190, "Notes": "-"},
+            {"Series": "Q5", "Tarif_Type": "unlimited", "Tyre_Package": "VF 710/70R42 + VF 600/70R30", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0189, "Std_NetPrice_Adj": 20500, "Std_NetPrice_Fixed": 19600, "Std_Track_Rear": 1950, "Std_Track_Front": 1972, "Spec_NetPrice_Adj": 23500, "Spec_NetPrice_Fixed": 22600, "Track_Rear_Min": 1880, "Track_Rear_Max": 2290, "Track_Front_Min": 1765, "Track_Front_Max": 2240, "Notes": "-"},
+            {"Series": "Q5", "Tarif_Type": "unlimited", "Tyre_Package": "710/70R42 + 600/70R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.028789910600255375, "Std_NetPrice_Adj": 16850, "Std_NetPrice_Fixed": 15550, "Std_Track_Rear": 1900, "Std_Track_Front": 1972, "Spec_NetPrice_Adj": 19850, "Spec_NetPrice_Fixed": 18550, "Track_Rear_Min": 1880, "Track_Rear_Max": 2290, "Track_Front_Min": 1765, "Track_Front_Max": 2240, "Notes": "-"}
           ],
           "S6": [
-            {"Series": "S6", "Tyre_Package": "650/85R38 + 600/70R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.0216, "Std_NetPrice_Adj": 18000, "Std_NetPrice_Fixed": 17200, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 21000, "Spec_NetPrice_Fixed": 20200, "Track_Rear_Min": 1880, "Track_Rear_Max": 2323, "Track_Front_Min": 1985, "Track_Front_Max": 2379, "Notes": "-"},
-            {"Series": "S6", "Tyre_Package": "VF 710/70R42 + VF 600/70R30", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0143, "Std_NetPrice_Adj": 21300, "Std_NetPrice_Fixed": 20400, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 24300, "Spec_NetPrice_Fixed": 23400, "Track_Rear_Min": 1940, "Track_Rear_Max": 2248, "Track_Front_Min": 1985, "Track_Front_Max": 2379, "Notes": "-"},
-            {"Series": "S6", "Tyre_Package": "710/70R42 + 600/70R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.024173052362707503, "Std_NetPrice_Adj": 18400, "Std_NetPrice_Fixed": 17500, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 21400, "Spec_NetPrice_Fixed": 20500, "Track_Rear_Min": 1940, "Track_Rear_Max": 2248, "Track_Front_Min": 1985, "Track_Front_Max": 2379, "Notes": "-"},
-            {"Series": "S6", "Tyre_Package": "900/60R42 + 650/60R34", "Tyre_Pattern": "BKT Agrimax Force", "Lead_Ratio": 0.0277, "Std_NetPrice_Adj": 26200, "Std_NetPrice_Fixed": 25600, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 29200, "Spec_NetPrice_Fixed": 28600, "Track_Rear_Min": 2100, "Track_Rear_Max": 2100, "Track_Front_Min": 2034, "Track_Front_Max": 2323, "Notes": "-"}
+            {"Series": "S6", "Tarif_Type": "unlimited", "Tyre_Package": "650/85R38 + 600/70R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.0216, "Std_NetPrice_Adj": 18000, "Std_NetPrice_Fixed": 17200, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 21000, "Spec_NetPrice_Fixed": 20200, "Track_Rear_Min": 1880, "Track_Rear_Max": 2323, "Track_Front_Min": 1985, "Track_Front_Max": 2379, "Notes": "-"},
+            {"Series": "S6", "Tarif_Type": "unlimited", "Tyre_Package": "VF 710/70R42 + VF 600/70R30", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0143, "Std_NetPrice_Adj": 21300, "Std_NetPrice_Fixed": 20400, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 24300, "Spec_NetPrice_Fixed": 23400, "Track_Rear_Min": 1940, "Track_Rear_Max": 2248, "Track_Front_Min": 1985, "Track_Front_Max": 2379, "Notes": "-"},
+            {"Series": "S6", "Tarif_Type": "unlimited", "Tyre_Package": "710/70R42 + 600/70R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.024173052362707503, "Std_NetPrice_Adj": 18400, "Std_NetPrice_Fixed": 17500, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 21400, "Spec_NetPrice_Fixed": 20500, "Track_Rear_Min": 1940, "Track_Rear_Max": 2248, "Track_Front_Min": 1985, "Track_Front_Max": 2379, "Notes": "-"},
+            {"Series": "S6", "Tarif_Type": "unlimited", "Tyre_Package": "900/60R42 + 650/60R34", "Tyre_Pattern": "BKT Agrimax Force", "Lead_Ratio": 0.0277, "Std_NetPrice_Adj": 26200, "Std_NetPrice_Fixed": 25600, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 29200, "Spec_NetPrice_Fixed": 28600, "Track_Rear_Min": 2100, "Track_Rear_Max": 2100, "Track_Front_Min": 2034, "Track_Front_Max": 2323, "Notes": "-"}
           ]
         };
 
@@ -290,11 +297,11 @@
             return new Intl.NumberFormat('fr-FR').format(num) + " €";
         };
 
-        const formatRatio = (val) => {
+        const formatRatioAsPercentage = (val) => {
             if (val === undefined || val === null || val === "" || val === "-") return "-";
             const num = Number(val);
             if (isNaN(num)) return val;
-            return num.toFixed(4);
+            return (num * 100).toFixed(2) + " %";
         };
 
         const formatTrack = (val) => {
@@ -302,33 +309,78 @@
             return val + " mm";
         };
 
+        let currentActiveData = null;
+
+        const updateTrackDisplay = () => {
+            if (!currentActiveData) return;
+            
+            if (currentActiveData.Tarif_Type === 'special' || (currentActiveData.Notes && currentActiveData.Notes.includes("Demande spéciale"))) {
+                document.getElementById('trackRowTitle1').textContent = "Configuration";
+                document.getElementById('trackRowTitle2').textContent = "Largeur de Voie Min";
+                document.getElementById('trackRowTitle3').textContent = "Largeur de Voie Max";
+                document.getElementById('trackRearStd').textContent = "Sur consultation";
+                document.getElementById('trackFrontStd').textContent = "Sur consultation";
+                document.getElementById('trackRearMin').textContent = "Sur consultation";
+                document.getElementById('trackFrontMin').textContent = "Sur consultation";
+                document.getElementById('trackRearMax').textContent = "Sur consultation";
+                document.getElementById('trackFrontMax').textContent = "Sur consultation";
+                return;
+            }
+
+            const rimType = rimTypeSelect.value;
+            const stabilizer = stabilizerSelect.value;
+
+            if (rimType === 'standard') {
+                document.getElementById('trackRowTitle1').textContent = "Voie Standard (Fixe)";
+                document.getElementById('trackRowTitle2').textContent = "Voie Standard (Ajustable Min)";
+                document.getElementById('trackRowTitle3').textContent = "Voie Standard (Ajustable Max)";
+                
+                document.getElementById('trackRearStd').textContent = formatTrack(currentActiveData.Std_Track_Rear);
+                document.getElementById('trackFrontStd').textContent = formatTrack(currentActiveData.Std_Track_Front);
+                document.getElementById('trackRearMin').textContent = formatTrack(currentActiveData.Track_Rear_Min);
+                document.getElementById('trackFrontMin').textContent = formatTrack(currentActiveData.Track_Front_Min);
+                document.getElementById('trackRearMax').textContent = formatTrack(currentActiveData.Track_Rear_Max);
+                document.getElementById('trackFrontMax').textContent = formatTrack(currentActiveData.Track_Front_Max);
+            } else {
+                document.getElementById('trackRowTitle1').textContent = "Voie Spéciale (Référence)";
+                document.getElementById('trackRowTitle2').textContent = "Largeur de Voie Min (Spéciale)";
+                document.getElementById('trackRowTitle3').textContent = "Largeur de Voie Max (Spéciale)";
+
+                let mod = (stabilizer === 'hydraulic') ? 20 : 0;
+                let rMin = currentActiveData.Track_Rear_Min !== "-" ? Number(currentActiveData.Track_Rear_Min) - mod : "-";
+                let rMax = currentActiveData.Track_Rear_Max !== "-" ? Number(currentActiveData.Track_Rear_Max) + mod : "-";
+                let fMin = currentActiveData.Track_Front_Min !== "-" ? Number(currentActiveData.Track_Front_Min) - mod : "-";
+                let fMax = currentActiveData.Track_Front_Max !== "-" ? Number(currentActiveData.Track_Front_Max) + mod : "-";
+
+                document.getElementById('trackRearStd').textContent = formatTrack(currentActiveData.Std_Track_Rear);
+                document.getElementById('trackFrontStd').textContent = formatTrack(currentActiveData.Std_Track_Front);
+                document.getElementById('trackRearMin').textContent = formatTrack(rMin);
+                document.getElementById('trackFrontMin').textContent = formatTrack(fMin);
+                document.getElementById('trackRearMax').textContent = formatTrack(rMax);
+                document.getElementById('trackFrontMax').textContent = formatTrack(fMax);
+            }
+        };
+
         const displayResults = (data) => {
+            currentActiveData = data;
             document.getElementById('valPattern').textContent = data.Tyre_Pattern || "-";
-            document.getElementById('valLeadRatio').textContent = formatRatio(data.Lead_Ratio);
+            document.getElementById('valLeadRatio').textContent = formatRatioAsPercentage(data.Lead_Ratio);
             
             document.getElementById('priceStdAdj').textContent = formatPrice(data.Std_NetPrice_Adj);
             document.getElementById('priceStdFix').textContent = formatPrice(data.Std_NetPrice_Fixed);
             document.getElementById('priceSpecAdj').textContent = formatPrice(data.Spec_NetPrice_Adj);
             document.getElementById('priceSpecFix').textContent = formatPrice(data.Spec_NetPrice_Fixed);
             
-            document.getElementById('trackRearStd').textContent = formatTrack(data.Std_Track_Rear);
-            document.getElementById('trackFrontStd').textContent = formatTrack(data.Std_Track_Front);
-            document.getElementById('trackRearMin').textContent = formatTrack(data.Track_Rear_Min);
-            document.getElementById('trackRearMax').textContent = formatTrack(data.Track_Rear_Max);
-            document.getElementById('trackFrontMin').textContent = formatTrack(data.Track_Front_Min);
-            document.getElementById('trackFrontMax').textContent = formatTrack(data.Track_Front_Max);
+            updateTrackDisplay();
             
             document.getElementById('valNotes').textContent = (data.Notes && data.Notes !== "-") ? data.Notes : "Aucune note additionnelle pour cette configuration.";
-            
             resultsContainer.classList.remove('hidden');
         };
 
         const initApp = async () => {
             try {
-                // Remplacement de fetch() par l'utilisation des données statiques incluses
                 tyreData = rawTyreData;
 
-                // Construction d'un index basé sur le modèle (Pattern)
                 Object.keys(tyreData).forEach(series => {
                     tyreData[series].forEach((pkg) => {
                         const pattern = pkg.Tyre_Pattern && pkg.Tyre_Pattern !== "-" ? pkg.Tyre_Pattern : "Autres / Non spécifié";
@@ -337,12 +389,11 @@
                         }
                         patternData[pattern].push({
                             ...pkg,
-                            Display_Name: `${series} | ${pkg.Tyre_Package}`
+                            Display_Name: `${series} | ${pkg.Tyre_Package} (${pkg.Tarif_Type === 'special' ? 'Demande Spéciale' : 'Tarif Unlimited'})`
                         });
                     });
                 });
 
-                // Remplir Séries
                 Object.keys(tyreData).forEach(series => {
                     const option = document.createElement('option');
                     option.value = series;
@@ -350,7 +401,6 @@
                     seriesSelect.appendChild(option);
                 });
 
-                // Remplir Patterns
                 Object.keys(patternData).sort().forEach(pattern => {
                     const option = document.createElement('option');
                     option.value = pattern;
@@ -362,7 +412,6 @@
             }
         };
 
-        // Initialisation au chargement de la fenêtre
         window.onload = initApp;
 
         searchModeRadios.forEach(radio => {
@@ -371,16 +420,18 @@
                 if (e.target.value === 'series') {
                     modeSeriesContainer.classList.remove('hidden');
                     modePatternContainer.classList.add('hidden');
-                    // Reset
                     seriesSelect.value = "";
-                    packageSelect.innerHTML = '<option value="">-- En attente de série --</option>';
+                    tariffSelect.value = "";
+                    tariffSelect.disabled = true;
+                    tariffSelect.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
+                    tariffSelect.classList.remove('bg-white', 'text-gray-800', 'cursor-pointer');
+                    packageSelect.innerHTML = '<option value="">-- En attente de combinaison pneus --</option>';
                     packageSelect.disabled = true;
                     packageSelect.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
                     packageSelect.classList.remove('bg-white', 'text-gray-800', 'cursor-pointer');
                 } else {
                     modeSeriesContainer.classList.add('hidden');
                     modePatternContainer.classList.remove('hidden');
-                    // Reset
                     patternSelect.value = "";
                     configSelect.innerHTML = '<option value="">-- En attente du modèle --</option>';
                     configSelect.disabled = true;
@@ -392,23 +443,47 @@
 
         seriesSelect.addEventListener('change', (e) => {
             const series = e.target.value;
-            packageSelect.innerHTML = '<option value="">-- Sélectionnez un package --</option>';
+            tariffSelect.value = "";
+            tariffSelect.disabled = true;
+            tariffSelect.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
+            tariffSelect.classList.remove('bg-white', 'text-gray-800', 'cursor-pointer');
+            
+            packageSelect.innerHTML = '<option value="">-- En attente de combinaison pneus --</option>';
+            packageSelect.disabled = true;
+            packageSelect.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
+            packageSelect.classList.remove('bg-white', 'text-gray-800', 'cursor-pointer');
+            
             resultsContainer.classList.add('hidden');
             
             if (series) {
+                tariffSelect.disabled = false;
+                tariffSelect.classList.remove('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
+                tariffSelect.classList.add('bg-white', 'text-gray-800', 'cursor-pointer');
+            }
+        });
+
+        tariffSelect.addEventListener('change', (e) => {
+            const series = seriesSelect.value;
+            const tariffType = e.target.value;
+            packageSelect.innerHTML = '<option value="">-- Sélectionnez une dimension --</option>';
+            resultsContainer.classList.add('hidden');
+            
+            if (series && tariffType) {
                 packageSelect.disabled = false;
                 packageSelect.classList.remove('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
                 packageSelect.classList.add('bg-white', 'text-gray-800', 'cursor-pointer');
                 
                 tyreData[series].forEach((pkg, index) => {
-                    const option = document.createElement('option');
-                    option.value = index;
-                    option.textContent = pkg.Tyre_Package;
-                    packageSelect.appendChild(option);
+                    if (pkg.Tarif_Type === tariffType) {
+                        const option = document.createElement('option');
+                        option.value = index;
+                        option.textContent = pkg.Tyre_Package;
+                        packageSelect.appendChild(option);
+                    }
                 });
             } else {
                 packageSelect.disabled = true;
-                packageSelect.innerHTML = '<option value="">-- En attente de série --</option>';
+                packageSelect.innerHTML = '<option value="">-- En attente de combinaison pneus --</option>';
                 packageSelect.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
                 packageSelect.classList.remove('bg-white', 'text-gray-800', 'cursor-pointer');
             }
@@ -461,6 +536,9 @@
                 resultsContainer.classList.add('hidden');
             }
         });
+
+        rimTypeSelect.addEventListener('change', updateTrackDisplay);
+        stabilizerSelect.addEventListener('change', updateTrackDisplay);
     </script>
 </body>
 </html>
