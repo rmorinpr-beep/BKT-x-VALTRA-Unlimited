@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurateur BKT x VALTRA UNLIMITED</title>
+    <!-- Chargement de Tailwind CSS via CDN pour le style -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bkt: {
+                            green: '#008e3b'
+                        },
+                        valtra: {
+                            dark: '#1a1a1a',
+                            gray: '#333333'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ajout d'une police Google moderne pour un rendu professionnel */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Transitions douces pour l'interface */
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <!-- En-tête (Header) -->
+    <header class="bg-bkt-green text-white py-4 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <!-- Left Logo: BKT -->
+            <div class="bg-white p-2 rounded shadow-sm flex-shrink-0">
+                <img src="https://i.postimg.cc/7Z255hNM/LOGO-BKT-TIRES-Green-Line-RGB.png" alt="BKT Logo" class="h-10 md:h-14 object-contain">
+            </div>
+            
+            <!-- Center Title -->
+            <h1 class="text-xl md:text-3xl font-bold tracking-wide text-center flex-grow mx-4">
+                Configurateur BKT x VALTRA UNLIMITED
+            </h1>
+
+            <!-- Right Logo: Valtra -->
+            <div class="bg-white p-2 rounded shadow-sm flex-shrink-0 flex items-center justify-center border border-gray-200">
+                <img src="https://i.postimg.cc/SxBzdCsy/Valtra-Logo-Black-Outline-RGB.png" alt="Valtra Logo" class="max-h-10 md:max-h-14 w-auto object-contain block">
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteneur Principal -->
+    <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-8 md:py-12 space-y-8">
+
+        <!-- 1. SÉLECTION -->
+        <section class="bg-white rounded-xl shadow-lg p-6 md:p-8 border-l-4 border-bkt-green">
+            <h2 class="text-lg font-bold text-valtra-gray uppercase mb-6 flex items-center">
+                <span class="bg-bkt-green text-white w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm">1</span>
+                SÉLECTION
+            </h2>
+            
+            <!-- Toggle Modes -->
+            <div class="flex space-x-6 mb-6 border-b pb-4">
+                <label class="flex items-center cursor-pointer group">
+                    <input type="radio" name="searchMode" value="series" checked class="w-5 h-5 text-bkt-green focus:ring-bkt-green cursor-pointer accent-[#008e3b]">
+                    <span class="ml-2 font-semibold text-gray-700 group-hover:text-bkt-green transition-colors">Par Série (Tracteur)</span>
+                </label>
+                <label class="flex items-center cursor-pointer group">
+                    <input type="radio" name="searchMode" value="pattern" class="w-5 h-5 text-bkt-green focus:ring-bkt-green cursor-pointer accent-[#008e3b]">
+                    <span class="ml-2 font-semibold text-gray-700 group-hover:text-bkt-green transition-colors">Par Modèle de pneumatiques (Pattern)</span>
+                </label>
+            </div>
+
+            <!-- Mode 1: Recherche par Série -->
+            <div id="modeSeries" class="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in">
+                <!-- Dropdown Série -->
+                <div>
+                    <label for="seriesSelect" class="block text-sm font-semibold text-gray-600 mb-2">Sélection de la série</label>
+                    <select id="seriesSelect" class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-bkt-green focus:border-transparent transition-shadow cursor-pointer appearance-none">
+                        <option value="">-- Sélectionnez une série --</option>
+                    </select>
+                </div>
+                <!-- Dropdown Package -->
+                <div>
+                    <label for="packageSelect" class="block text-sm font-semibold text-gray-600 mb-2">Dimension du package</label>
+                    <select id="packageSelect" disabled class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-100 text-gray-500 focus:outline-none focus:ring-2 focus:ring-bkt-green focus:border-transparent transition-shadow cursor-not-allowed appearance-none">
+                        <option value="">-- En attente de série --</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Mode 2: Recherche par Pattern -->
+            <div id="modePattern" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden fade-in">
+                <!-- Dropdown Pattern -->
+                <div>
+                    <label for="patternSelect" class="block text-sm font-semibold text-gray-600 mb-2">Modèle de Pneu (Pattern)</label>
+                    <select id="patternSelect" class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-bkt-green focus:border-transparent transition-shadow cursor-pointer appearance-none">
+                        <option value="">-- Sélectionnez un modèle --</option>
+                    </select>
+                </div>
+                <!-- Dropdown Config -->
+                <div>
+                    <label for="configSelect" class="block text-sm font-semibold text-gray-600 mb-2">Configuration correspondante</label>
+                    <select id="configSelect" disabled class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-100 text-gray-500 focus:outline-none focus:ring-2 focus:ring-bkt-green focus:border-transparent transition-shadow cursor-not-allowed appearance-none">
+                        <option value="">-- En attente du modèle --</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conteneur des résultats (masqué par défaut) -->
+        <div id="resultsContainer" class="hidden space-y-8 fade-in">
+
+            <!-- 2. DÉTAILS DE LA CONFIGURATION -->
+            <section class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-lg font-bold text-valtra-gray uppercase mb-6 flex items-center border-b pb-3">
+                    <span class="bg-bkt-green text-white w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm">2</span>
+                    DÉTAILS DE LA CONFIGURATION
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Profil du Pneu (Pattern)</p>
+                        <p id="valPattern" class="text-xl font-bold text-valtra-dark">-</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Rapport de Prépondérance (Lead Ratio)</p>
+                        <p id="valLeadRatio" class="text-xl font-bold text-valtra-dark font-mono">-</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. TARIFICATION (NET €) -->
+            <section class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-lg font-bold text-valtra-gray uppercase mb-6 flex items-center border-b pb-3">
+                    <span class="bg-bkt-green text-white w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm">3</span>
+                    TARIFICATION (NET €)
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Voie Standard -->
+                    <div class="space-y-4">
+                        <h3 class="font-semibold text-valtra-dark text-md border-l-4 border-bkt-green pl-2">Voie Standard</h3>
+                        <div class="flex justify-between items-center bg-gray-50 p-3 rounded border">
+                            <span class="text-sm text-gray-600">Jantes Ajustables</span>
+                            <span id="priceStdAdj" class="font-bold text-lg text-green-700">-</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-gray-50 p-3 rounded border">
+                            <span class="text-sm text-gray-600">Jantes Fixes</span>
+                            <span id="priceStdFix" class="font-bold text-lg text-green-700">-</span>
+                        </div>
+                    </div>
+                    <!-- Voie Spéciale -->
+                    <div class="space-y-4">
+                        <h3 class="font-semibold text-valtra-dark text-md border-l-4 border-bkt-green pl-2">Voie Spéciale</h3>
+                        <div class="flex justify-between items-center bg-gray-50 p-3 rounded border">
+                            <span class="text-sm text-gray-600">Jantes Ajustables</span>
+                            <span id="priceSpecAdj" class="font-bold text-lg text-green-700">-</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-gray-50 p-3 rounded border">
+                            <span class="text-sm text-gray-600">Jantes Fixes</span>
+                            <span id="priceSpecFix" class="font-bold text-lg text-green-700">-</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. LARGEURS DE VOIE (mm) -->
+            <section class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-lg font-bold text-valtra-gray uppercase mb-6 flex items-center border-b pb-3">
+                    <span class="bg-bkt-green text-white w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm">4</span>
+                    LARGEURS DE VOIE (mm)
+                </h2>
+                
+                <div class="overflow-hidden border border-gray-200 rounded-lg">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="py-3 px-4 text-sm font-semibold text-gray-600 border-b border-r border-gray-200 w-1/3">Dimension</th>
+                                <th class="py-3 px-4 text-sm font-bold text-bkt-green border-b border-r border-gray-200 w-1/3 text-center">Essieu Arrière</th>
+                                <th class="py-3 px-4 text-sm font-bold text-bkt-green border-b border-gray-200 w-1/3 text-center">Essieu Avant</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4 text-sm font-medium text-gray-700 border-r border-gray-200">Voie Standard (Fixe)</td>
+                                <td id="trackRearStd" class="py-3 px-4 text-center font-mono text-gray-900 border-r border-gray-200">-</td>
+                                <td id="trackFrontStd" class="py-3 px-4 text-center font-mono text-gray-900">-</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 bg-white">
+                                <td class="py-3 px-4 text-sm font-medium text-gray-700 border-r border-gray-200">Largeur de Voie Min</td>
+                                <td id="trackRearMin" class="py-3 px-4 text-center font-mono text-gray-900 border-r border-gray-200">-</td>
+                                <td id="trackFrontMin" class="py-3 px-4 text-center font-mono text-gray-900">-</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4 text-sm font-medium text-gray-700 border-r border-gray-200">Largeur de Voie Max</td>
+                                <td id="trackRearMax" class="py-3 px-4 text-center font-mono text-gray-900 border-r border-gray-200">-</td>
+                                <td id="trackFrontMax" class="py-3 px-4 text-center font-mono text-gray-900">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 5. NOTES ADDITIONNELLES -->
+            <section class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-lg font-bold text-valtra-gray uppercase mb-4 flex items-center">
+                    <span class="bg-bkt-green text-white w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm">5</span>
+                    NOTES ADDITIONNELLES
+                </h2>
+                <div class="bg-[#f0fdf4] border border-green-200 text-green-800 p-4 rounded-lg flex items-start">
+                    <svg class="w-6 h-6 text-bkt-green mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <p id="valNotes" class="text-sm font-medium leading-relaxed">-</p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Logique de l'application -->
+    <script>
+        // Initialisation des variables globales
+        let tyreData = {};
+        let patternData = {};
+
+        // DOM Elements
+        const seriesSelect = document.getElementById('seriesSelect');
+        const packageSelect = document.getElementById('packageSelect');
+        const patternSelect = document.getElementById('patternSelect');
+        const configSelect = document.getElementById('configSelect');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const searchModeRadios = document.querySelectorAll('input[name="searchMode"]');
+        
+        const modeSeriesContainer = document.getElementById('modeSeries');
+        const modePatternContainer = document.getElementById('modePattern');
+
+        // Données mises à jour avec la mention "VF" pour les modèles V-Flecto
+        const rawTyreData = {
+          "A5": [
+            {"Series": "A5", "Tyre_Package": "18.4-34 + 14.9-24", "Tyre_Pattern": "BKT TR-135 (12 PR)", "Lead_Ratio": 0.0119, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 5350, "Std_Track_Rear": 1640, "Std_Track_Front": 1650, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": 6350, "Track_Rear_Min": 1520, "Track_Rear_Max": 1910, "Track_Front_Min": 1570, "Track_Front_Max": 1800, "Notes": "-"}
+          ],
+          "G5": [
+            {"Series": "G5", "Tyre_Package": "18.4-34 + 14.9-24", "Tyre_Pattern": "BKT TR-135 (12 PR)", "Lead_Ratio": 0.0265, "Std_NetPrice_Adj": 4200, "Std_NetPrice_Fixed": 4200, "Std_Track_Rear": 1750, "Std_Track_Front": 1780, "Spec_NetPrice_Adj": 5700, "Spec_NetPrice_Fixed": 5700, "Track_Rear_Min": 1620, "Track_Rear_Max": 2020, "Track_Front_Min": 1690, "Track_Front_Max": 1930, "Notes": "-"},
+            {"Series": "G5", "Tyre_Package": "18.4-38 + 14.9-28 ", "Tyre_Pattern": "BKT TR-135 (12 PR)", "Lead_Ratio": 0.0406, "Std_NetPrice_Adj": 5500, "Std_NetPrice_Fixed": "-", "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 7000, "Spec_NetPrice_Fixed": 6850, "Track_Rear_Min": 1620, "Track_Rear_Max": 1990, "Track_Front_Min": 1680, "Track_Front_Max": 2040, "Notes": "-"},
+            {"Series": "G5", "Tyre_Package": "600/65R38 + 480/65R28", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.029883725305738462, "Std_NetPrice_Adj": 9600, "Std_NetPrice_Fixed": 8400, "Std_Track_Rear": 1752, "Std_Track_Front": 1780, "Spec_NetPrice_Adj": 11100, "Spec_NetPrice_Fixed": 9900, "Track_Rear_Min": 1752, "Track_Rear_Max": 1950, "Track_Front_Min": 1780, "Track_Front_Max": 1990, "Notes": "-"},
+            {"Series": "G5", "Tyre_Package": "VF 650/60R38 + VF 520/60R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.003544182480352598, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 9500, "Std_Track_Rear": 1819, "Std_Track_Front": 1802, "Spec_NetPrice_Adj": 13200, "Spec_NetPrice_Fixed": 11000, "Track_Rear_Min": 1802, "Track_Rear_Max": 1900, "Track_Front_Min": 1802, "Track_Front_Max": 1987, "Notes": "-"}
+          ],
+          "N5": [
+            {"Series": "N5", "Tyre_Package": "480/80R34 + 400/80R24", "Tyre_Pattern": "-", "Lead_Ratio": 0.0083, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": "-", "Std_Track_Rear": 1810, "Std_Track_Front": 1840, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": "-", "Track_Rear_Min": 1680, "Track_Rear_Max": 2060, "Track_Front_Min": 1700, "Track_Front_Max": 1970, "Notes": "-"},
+            {"Series": "N5", "Tyre_Package": "520/70R38 + 420/70R28", "Tyre_Pattern": "BKT Agrimax RT765", "Lead_Ratio": 0.0035, "Std_NetPrice_Adj": 7200, "Std_NetPrice_Fixed": 7100, "Std_Track_Rear": 1880, "Std_Track_Front": 1840, "Spec_NetPrice_Adj": 9200, "Spec_NetPrice_Fixed": 9100, "Track_Rear_Min": 1640, "Track_Rear_Max": 2060, "Track_Front_Min": 1720, "Track_Front_Max": 2050, "Notes": "-"},
+            {"Series": "N5", "Tyre_Package": "600/65R38 + 480/65R28", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.017577422389463804, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 9400, "Std_Track_Rear": 1850, "Std_Track_Front": 1840, "Spec_NetPrice_Adj": 13300, "Spec_NetPrice_Fixed": 11400, "Track_Rear_Min": 1720, "Track_Rear_Max": 2110, "Track_Front_Min": 1780, "Track_Front_Max": 2000, "Notes": "-"},
+            {"Series": "N5", "Tyre_Package": "VF 650/65R38 + VF 540/65R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0217, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 14300, "Std_Track_Rear": 1830, "Std_Track_Front": 1920, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": 16300, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1840, "Track_Front_Max": 2100, "Notes": "-"},
+            {"Series": "N5", "Tyre_Package": "650/65R38 + 540/65R28", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.025960826985854224, "Std_NetPrice_Adj": 10850, "Std_NetPrice_Fixed": 10250, "Std_Track_Rear": 1850, "Std_Track_Front": 1900, "Spec_NetPrice_Adj": 12850, "Spec_NetPrice_Fixed": 12250, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1840, "Track_Front_Max": 2100, "Notes": "-"},
+            {"Series": "N5", "Tyre_Package": "VF 710/60R38 + VF 600/60R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0368, "Std_NetPrice_Adj": 18800, "Std_NetPrice_Fixed": 14800, "Std_Track_Rear": 1830, "Std_Track_Front": 1920, "Spec_NetPrice_Adj": 20800, "Spec_NetPrice_Fixed": 16800, "Track_Rear_Min": 1830, "Track_Rear_Max": 2040, "Track_Front_Min": 1900, "Track_Front_Max": 2150, "Notes": "Reinforced adjustable"}
+          ],
+          "T5": [
+            {"Series": "T5", "Tyre_Package": "VF 650/65R38 + VF 540/65R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0309, "Std_NetPrice_Adj": 18000, "Std_NetPrice_Fixed": 14300, "Std_Track_Rear": 1830, "Std_Track_Front": 1940, "Spec_NetPrice_Adj": 20000, "Spec_NetPrice_Fixed": 16300, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1850, "Track_Front_Max": 2250, "Notes": "Reinforced adjustable rim"},
+            {"Series": "T5", "Tyre_Package": "VF 710/70R38 + VF 600/65R28", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0298, "Std_NetPrice_Adj": "-", "Std_NetPrice_Fixed": 15400, "Std_Track_Rear": 1830, "Std_Track_Front": 1920, "Spec_NetPrice_Adj": "-", "Spec_NetPrice_Fixed": 17400, "Track_Rear_Min": 1830, "Track_Rear_Max": 2040, "Track_Front_Min": 1910, "Track_Front_Max": 2150, "Notes": "-"},
+            {"Series": "T5", "Tyre_Package": "650/65R42 + 540/65R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.008585789742715955, "Std_NetPrice_Adj": 12300, "Std_NetPrice_Fixed": 11350, "Std_Track_Rear": 1850, "Std_Track_Front": 1910, "Spec_NetPrice_Adj": 14300, "Spec_NetPrice_Fixed": 13350, "Track_Rear_Min": 1810, "Track_Rear_Max": 2100, "Track_Front_Min": 1890, "Track_Front_Max": 2190, "Notes": "-"},
+            {"Series": "T5", "Tyre_Package": "VF 710/60R42 + VF 600/60R30", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0208, "Std_NetPrice_Adj": 19800, "Std_NetPrice_Fixed": 15600, "Std_Track_Rear": 1830, "Std_Track_Front": 1960, "Spec_NetPrice_Adj": 21800, "Spec_NetPrice_Fixed": 17600, "Track_Rear_Min": 1830, "Track_Rear_Max": 2040, "Track_Front_Min": 1910, "Track_Front_Max": 2150, "Notes": "Reinforced adjustable rim"}
+          ],
+          "Q5": [
+            {"Series": "Q5", "Tyre_Package": "650/85R38 + 600/70R30", "Tyre_Pattern": "BKT Agrimax Fortis", "Lead_Ratio": 0.0399, "Std_NetPrice_Adj": 16300, "Std_NetPrice_Fixed": 15400, "Std_Track_Rear": 1898, "Std_Track_Front": 1971, "Spec_NetPrice_Adj": 19300, "Spec_NetPrice_Fixed": 18400, "Track_Rear_Min": 1876, "Track_Rear_Max": 2350, "Track_Front_Min": 1770, "Track_Front_Max": 2240, "Notes": "-"},
+            {"Series": "Q5", "Tyre_Package": "650/65R42 + 540/65R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.010096779689895863, "Std_NetPrice_Adj": 12850, "Std_NetPrice_Fixed": 12300, "Std_Track_Rear": 1790, "Std_Track_Front": 1850, "Spec_NetPrice_Adj": 15850, "Spec_NetPrice_Fixed": 15300, "Track_Rear_Min": 1790, "Track_Rear_Max": 2330, "Track_Front_Min": 1705, "Track_Front_Max": 2190, "Notes": "-"},
+            {"Series": "Q5", "Tyre_Package": "VF 710/70R42 + VF 600/70R30", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0189, "Std_NetPrice_Adj": 20500, "Std_NetPrice_Fixed": 19600, "Std_Track_Rear": 1950, "Std_Track_Front": 1972, "Spec_NetPrice_Adj": 23500, "Spec_NetPrice_Fixed": 22600, "Track_Rear_Min": 1880, "Track_Rear_Max": 2290, "Track_Front_Min": 1765, "Track_Front_Max": 2240, "Notes": "-"},
+            {"Series": "Q5", "Tyre_Package": "710/70R42 + 600/70R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.028789910600255375, "Std_NetPrice_Adj": 16850, "Std_NetPrice_Fixed": 15550, "Std_Track_Rear": 1900, "Std_Track_Front": 1972, "Spec_NetPrice_Adj": 19850, "Spec_NetPrice_Fixed": 18550, "Track_Rear_Min": 1880, "Track_Rear_Max": 2290, "Track_Front_Min": 1765, "Track_Front_Max": 2240, "Notes": "-"}
+          ],
+          "S6": [
+            {"Series": "S6", "Tyre_Package": "650/85R38 + 600/70R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.0216, "Std_NetPrice_Adj": 18000, "Std_NetPrice_Fixed": 17200, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 21000, "Spec_NetPrice_Fixed": 20200, "Track_Rear_Min": 1880, "Track_Rear_Max": 2323, "Track_Front_Min": 1985, "Track_Front_Max": 2379, "Notes": "-"},
+            {"Series": "S6", "Tyre_Package": "VF 710/70R42 + VF 600/70R30", "Tyre_Pattern": "BKT Agrimax V-Flecto VF", "Lead_Ratio": 0.0143, "Std_NetPrice_Adj": 21300, "Std_NetPrice_Fixed": 20400, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 24300, "Spec_NetPrice_Fixed": 23400, "Track_Rear_Min": 1940, "Track_Rear_Max": 2248, "Track_Front_Min": 1985, "Track_Front_Max": 2379, "Notes": "-"},
+            {"Series": "S6", "Tyre_Package": "710/70R42 + 600/70R30", "Tyre_Pattern": "BKT Ridemax IT697 IND", "Lead_Ratio": 0.024173052362707503, "Std_NetPrice_Adj": 18400, "Std_NetPrice_Fixed": 17500, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 21400, "Spec_NetPrice_Fixed": 20500, "Track_Rear_Min": 1940, "Track_Rear_Max": 2248, "Track_Front_Min": 1985, "Track_Front_Max": 2379, "Notes": "-"},
+            {"Series": "S6", "Tyre_Package": "900/60R42 + 650/60R34", "Tyre_Pattern": "BKT Agrimax Force", "Lead_Ratio": 0.0277, "Std_NetPrice_Adj": 26200, "Std_NetPrice_Fixed": 25600, "Std_Track_Rear": "-", "Std_Track_Front": "-", "Spec_NetPrice_Adj": 29200, "Spec_NetPrice_Fixed": 28600, "Track_Rear_Min": 2100, "Track_Rear_Max": 2100, "Track_Front_Min": 2034, "Track_Front_Max": 2323, "Notes": "-"}
+          ]
+        };
+
+        const formatPrice = (val) => {
+            if (val === undefined || val === null || val === "" || val === "-") return "-";
+            const num = Number(val);
+            if (isNaN(num)) return val;
+            return new Intl.NumberFormat('fr-FR').format(num) + " €";
+        };
+
+        const formatRatio = (val) => {
+            if (val === undefined || val === null || val === "" || val === "-") return "-";
+            const num = Number(val);
+            if (isNaN(num)) return val;
+            return num.toFixed(4);
+        };
+
+        const formatTrack = (val) => {
+            if (val === undefined || val === null || val === "" || val === "-") return "-";
+            return val + " mm";
+        };
+
+        const displayResults = (data) => {
+            document.getElementById('valPattern').textContent = data.Tyre_Pattern || "-";
+            document.getElementById('valLeadRatio').textContent = formatRatio(data.Lead_Ratio);
+            
+            document.getElementById('priceStdAdj').textContent = formatPrice(data.Std_NetPrice_Adj);
+            document.getElementById('priceStdFix').textContent = formatPrice(data.Std_NetPrice_Fixed);
+            document.getElementById('priceSpecAdj').textContent = formatPrice(data.Spec_NetPrice_Adj);
+            document.getElementById('priceSpecFix').textContent = formatPrice(data.Spec_NetPrice_Fixed);
+            
+            document.getElementById('trackRearStd').textContent = formatTrack(data.Std_Track_Rear);
+            document.getElementById('trackFrontStd').textContent = formatTrack(data.Std_Track_Front);
+            document.getElementById('trackRearMin').textContent = formatTrack(data.Track_Rear_Min);
+            document.getElementById('trackRearMax').textContent = formatTrack(data.Track_Rear_Max);
+            document.getElementById('trackFrontMin').textContent = formatTrack(data.Track_Front_Min);
+            document.getElementById('trackFrontMax').textContent = formatTrack(data.Track_Front_Max);
+            
+            document.getElementById('valNotes').textContent = (data.Notes && data.Notes !== "-") ? data.Notes : "Aucune note additionnelle pour cette configuration.";
+            
+            resultsContainer.classList.remove('hidden');
+        };
+
+        const initApp = async () => {
+            try {
+                // Remplacement de fetch() par l'utilisation des données statiques incluses
+                tyreData = rawTyreData;
+
+                // Construction d'un index basé sur le modèle (Pattern)
+                Object.keys(tyreData).forEach(series => {
+                    tyreData[series].forEach((pkg) => {
+                        const pattern = pkg.Tyre_Pattern && pkg.Tyre_Pattern !== "-" ? pkg.Tyre_Pattern : "Autres / Non spécifié";
+                        if (!patternData[pattern]) {
+                            patternData[pattern] = [];
+                        }
+                        patternData[pattern].push({
+                            ...pkg,
+                            Display_Name: `${series} | ${pkg.Tyre_Package}`
+                        });
+                    });
+                });
+
+                // Remplir Séries
+                Object.keys(tyreData).forEach(series => {
+                    const option = document.createElement('option');
+                    option.value = series;
+                    option.textContent = series;
+                    seriesSelect.appendChild(option);
+                });
+
+                // Remplir Patterns
+                Object.keys(patternData).sort().forEach(pattern => {
+                    const option = document.createElement('option');
+                    option.value = pattern;
+                    option.textContent = pattern;
+                    patternSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error("Erreur d'initialisation :", error);
+            }
+        };
+
+        // Initialisation au chargement de la fenêtre
+        window.onload = initApp;
+
+        searchModeRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                resultsContainer.classList.add('hidden');
+                if (e.target.value === 'series') {
+                    modeSeriesContainer.classList.remove('hidden');
+                    modePatternContainer.classList.add('hidden');
+                    // Reset
+                    seriesSelect.value = "";
+                    packageSelect.innerHTML = '<option value="">-- En attente de série --</option>';
+                    packageSelect.disabled = true;
+                    packageSelect.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
+                    packageSelect.classList.remove('bg-white', 'text-gray-800', 'cursor-pointer');
+                } else {
+                    modeSeriesContainer.classList.add('hidden');
+                    modePatternContainer.classList.remove('hidden');
+                    // Reset
+                    patternSelect.value = "";
+                    configSelect.innerHTML = '<option value="">-- En attente du modèle --</option>';
+                    configSelect.disabled = true;
+                    configSelect.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
+                    configSelect.classList.remove('bg-white', 'text-gray-800', 'cursor-pointer');
+                }
+            });
+        });
+
+        seriesSelect.addEventListener('change', (e) => {
+            const series = e.target.value;
+            packageSelect.innerHTML = '<option value="">-- Sélectionnez un package --</option>';
+            resultsContainer.classList.add('hidden');
+            
+            if (series) {
+                packageSelect.disabled = false;
+                packageSelect.classList.remove('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
+                packageSelect.classList.add('bg-white', 'text-gray-800', 'cursor-pointer');
+                
+                tyreData[series].forEach((pkg, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = pkg.Tyre_Package;
+                    packageSelect.appendChild(option);
+                });
+            } else {
+                packageSelect.disabled = true;
+                packageSelect.innerHTML = '<option value="">-- En attente de série --</option>';
+                packageSelect.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
+                packageSelect.classList.remove('bg-white', 'text-gray-800', 'cursor-pointer');
+            }
+        });
+
+        packageSelect.addEventListener('change', (e) => {
+            const series = seriesSelect.value;
+            const pkgIndex = e.target.value;
+            
+            if (series && pkgIndex !== "") {
+                const data = tyreData[series][pkgIndex];
+                displayResults(data);
+            } else {
+                resultsContainer.classList.add('hidden');
+            }
+        });
+
+        patternSelect.addEventListener('change', (e) => {
+            const pattern = e.target.value;
+            configSelect.innerHTML = '<option value="">-- Sélectionnez une configuration --</option>';
+            resultsContainer.classList.add('hidden');
+            
+            if (pattern) {
+                configSelect.disabled = false;
+                configSelect.classList.remove('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
+                configSelect.classList.add('bg-white', 'text-gray-800', 'cursor-pointer');
+                
+                patternData[pattern].forEach((pkg, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = pkg.Display_Name;
+                    configSelect.appendChild(option);
+                });
+            } else {
+                configSelect.disabled = true;
+                configSelect.innerHTML = '<option value="">-- En attente du modèle --</option>';
+                configSelect.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
+                configSelect.classList.remove('bg-white', 'text-gray-800', 'cursor-pointer');
+            }
+        });
+
+        configSelect.addEventListener('change', (e) => {
+            const pattern = patternSelect.value;
+            const configIndex = e.target.value;
+            
+            if (pattern && configIndex !== "") {
+                const data = patternData[pattern][configIndex];
+                displayResults(data);
+            } else {
+                resultsContainer.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
